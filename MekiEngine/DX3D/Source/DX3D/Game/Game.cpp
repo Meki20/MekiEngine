@@ -11,11 +11,11 @@ dx3d::Game::Game(const GameDesc& desc) :
 	m_display = std::make_unique<Window>(WindowDesc{ m_logger });
 
 
-	m_loggerPtr->log(Logger::LogLevel::Info, "Game initialized.");
+	DX3DLogInfo("Game initialized.");
 }
 
 
 dx3d::Game::~Game()
 {
-	m_loggerPtr->log(Logger::LogLevel::Info, "Game deallocation started.");
+	DX3DLogInfo("Game deallocation started.");
 }
