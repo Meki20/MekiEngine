@@ -17,13 +17,13 @@ static LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	}
 }
 
-dx3d::Window::Window(const WindowDesc& desc): Base(desc.base)
+dx3d::Window::Window(const WindowDesc& desc): Base(desc.base), m_size(desc.size)
 {
 	auto registerWindowClassFunction = []()
 		{
 			WNDCLASSEX wc{};
 			wc.cbSize = sizeof(WNDCLASSEX);
-			wc.lpszClassName = L"DX3DWindow";
+			wc.lpszClassName = "DX3DWindow";
 			wc.lpfnWndProc = &WindowProcedure;
 			return RegisterClassEx(&wc);
 		};
@@ -34,10 +34,10 @@ dx3d::Window::Window(const WindowDesc& desc): Base(desc.base)
 	{
 		DX3DLogErrorAndThrow("RegisterClassEx failed.");
 	}
-	RECT rc{ 0, 0, 1280, 720 };
+	RECT rc{ 0, 0, m_size.width, m_size.height };
 	AdjustWindowRect(&rc, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, false);
 
-	m_handle = CreateWindowEx(NULL, MAKEINTATOM(windowClassId), L"MekiEngine",
+	m_handle = CreateWindowEx(NULL, MAKEINTATOM(windowClassId), "MekiEngine",
 		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT,
 		rc.right - rc.left, rc.bottom - rc.top,
 		NULL, NULL, NULL, NULL);
